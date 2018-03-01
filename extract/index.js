@@ -1,18 +1,17 @@
-/* globals __dirname */
+const {
+    getAllProducts,
+} = require('./products-urls-extract');
 
-// const path = require('path');
+const {
+    getTotalPages,
+} = require('./total-pages-technopolis-extract');
 
-// require('fs')
-//     .readdirSync(__dirname)
-//     .filter((file) => file.includes('extract'))
-//     .forEach((moduleName) => {
-//         const modulePath = path.join(__dirname, moduleName);
-//         const currentFile = path.basename(moduleName, 'extract');
-//         module.exports[currentFile] = require(modulePath);
-//     });
-const extract = {
-    getAllProducts: require('./products-urls-extract'),
-    getTotalPages: require('./total-pages-technopolis-extract'),
+const {
+    getAllProductsDetails,
+} = require('./products-details-extract');
+
+module.exports = {
+    getAllProducts,
+    getTotalPages,
+    getAllProductsDetails,
 };
-
-module.exports = extract;
