@@ -1,4 +1,5 @@
 const TECHNOPOLIS = {
+    priceValue: '.product-description .description .prices table .priceValue',
     totalMonitors: '.top-filter form fieldset ol label span',
     monitorsUrls: '.product-box .text h2 a',
     monitorDetails: '.table-characteristics tbody tr',
