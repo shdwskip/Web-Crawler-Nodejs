@@ -5,8 +5,7 @@ const {
 
 const allProducts = require('./products-urls-extract');
 
-const getProductPrice = async (productUrl) => {
-    const $ = await domParser.initDomParser(productUrl);
+const getProductPrice = async ($) => {
     const $spanWithPrice = $(TECHNOPOLIS.priceValue)[0].innerHTML;
     const beforeDecimal = $spanWithPrice.substring(0,
                             $spanWithPrice.indexOf('<span'))
@@ -18,8 +17,7 @@ const getProductPrice = async (productUrl) => {
     return totalPrice.toFixed(2);
 };
 
-const getProductImage = async (productUrl) => {
-    const $ = await domParser.initDomParser(productUrl);
+const getProductImage = async ($) => {
     const $imageUrl = TECHNOPOLIS.mainUrl +
                     $(TECHNOPOLIS.productImage).attr('src');
     return $imageUrl;
@@ -27,8 +25,8 @@ const getProductImage = async (productUrl) => {
 
 const getProductsDetails = async (productUrl) => {
     const $ = await domParser.initDomParser(productUrl);
-    const monitorPrice = await getProductPrice(productUrl);
-    const monitorImage = await getProductImage(productUrl);
+    const monitorPrice = await getProductPrice($);
+    const monitorImage = await getProductImage($);
     const monitorChars = {
         Цена: monitorPrice,
         Снимка: monitorImage,
