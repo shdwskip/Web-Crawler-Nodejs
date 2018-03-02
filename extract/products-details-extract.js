@@ -18,11 +18,20 @@ const getProductPrice = async (productUrl) => {
     return totalPrice.toFixed(2);
 };
 
+const getProductImage = async (productUrl) => {
+    const $ = await domParser.initDomParser(productUrl);
+    const $imageUrl = TECHNOPOLIS.mainUrl +
+                    $(TECHNOPOLIS.productImage).attr('src');
+    return $imageUrl;
+};
+
 const getProductsDetails = async (productUrl) => {
     const $ = await domParser.initDomParser(productUrl);
     const monitorPrice = await getProductPrice(productUrl);
+    const monitorImage = await getProductImage(productUrl);
     const monitorChars = {
         Цена: monitorPrice,
+        Снимка: monitorImage,
     };
     const $monitorDetails = [...$(TECHNOPOLIS.monitorDetails).children()];
     $monitorDetails.forEach((child, index, arr) => {
@@ -53,6 +62,11 @@ const getAllProductsDetails = async () => {
     return products;
 };
 
+// const run = async () => {
+//     await getAllProductsDetails();
+// };
+
+// run();
 module.exports = {
     getAllProductsDetails,
 };
