@@ -1,5 +1,5 @@
 const {
-    getAllProducts,
+    getAllProductsUrls,
 } = require('./products-urls-extract');
 
 const {
@@ -11,7 +11,7 @@ const {
 } = require('./products-details-extract');
 
 module.exports = {
-    getAllProducts,
+    getAllProductsUrls,
     getTotalPages,
     getAllProductsDetails,
 };

@@ -10,7 +10,7 @@ const getProductsFromCurrentPage = async (urlLink) => {
         .map(($link) => $link.attr('href'));
 };
 
-const getAllProducts = async (link, page) => {
+const getAllProductsUrls = async (link, page) => {
     const currentProducts = await getProductsFromCurrentPage(link);
     if (currentProducts.length === 0) {
         return [];
@@ -18,11 +18,11 @@ const getAllProducts = async (link, page) => {
     const restOfLink = link.slice(link.indexOf('page=') + 6);
     link = link.substring(0, link.indexOf('page=') + 5) +
             (page + 1) + restOfLink;
-    const nextProducts = await getAllProducts(link, page + 1);
+    const nextProducts = await getAllProductsUrls(link, page + 1);
 
     return [...currentProducts, ...nextProducts];
 };
 
 module.exports = {
-    getAllProducts,
+    getAllProductsUrls,
 };
