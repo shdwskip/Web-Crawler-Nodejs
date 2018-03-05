@@ -9,11 +9,11 @@ const TECHNOPOLIS = {
 };
 
 const DESKTOPBG = {
-    productImage: '.product-image a',
-    priceValue: '.price span',
-    totalMonitors: '#content .frame .count',
+    productImage: '.product-image a img',
+    priceValue: '.product-sidebar .price span:first-of-type',
+    monitorVendor: '.frame header h1',
     monitorsUrls: '.products li article div:first-of-type a',
-    monitorDetails: '#characteristics .product-characteristics',
+    monitorDetails: '#characteristics .product-characteristics tbody tr',
     mainUrl: 'https://www.desktop.bg',
     url: 'https://desktop.bg/displays-all?backlight_id_in_all=all&basic_color_id_in_all=all&brand_id_in_all=all&display_size_type_btw_all=all&display_type_id_in_all=all&display_type_view_id_in_all=all&list_view=true&page=1&per_page=100&price_btw_all=all&refresh_rate_id_in_all=all&resolution_id_in_all=all&search%5Bprice_gte%5D=&search%5Bprice_lte%5D=&search%5Bs%5D=price_asc&technology_panel_id_in_all=all&time_reaction_id_in_all=all&utf8=%E2%9C%93&warranty_size_btw_all=all',
 };
