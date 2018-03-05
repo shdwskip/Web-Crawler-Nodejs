@@ -15,7 +15,7 @@ const run = async () => {
     console.log(allProducts);
     const details = await getAllProductsDetails();
     console.log('================================');
-    details.forEach((monitor) => console.log(monitor));
+    details.forEach((monitor, index) => console.log(monitor));
     return pages;
 };
 

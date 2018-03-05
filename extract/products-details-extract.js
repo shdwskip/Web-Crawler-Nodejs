@@ -25,7 +25,7 @@ const getProductImage = async ($) => {
     return $imageUrl;
 };
 
-const getProductsDetails = async (productUrl) => {
+const getProductDetails = async (productUrl) => {
     const $ = await domParser.initDomParser(productUrl);
     const monitorPrice = await getProductPrice($);
     const monitorImage = await getProductImage($);
@@ -51,18 +51,29 @@ const getProductsDetails = async (productUrl) => {
     return monitorChars;
 };
 
+const getAllByChunks = async (allProductsUrls, allDetails) => {
+    if (allProductsUrls.length === 0) {
+        return allDetails;
+    }
+
+    const queue = allProductsUrls.splice(0, 5);
+
+    allDetails.push(await Promise.all(queue.map((url) => {
+        url = TECHNOPOLIS.mainUrl + url;
+        return getProductDetails(url);
+    })));
+    return getAllByChunks(allProductsUrls, allDetails);
+};
+
 const getAllProductsDetails = async () => {
     const allProductsUrls = await getAllProductsUrls(TECHNOPOLIS.url, 0);
-    const products = await Promise.all(allProductsUrls.map((url) => {
-        url = TECHNOPOLIS.mainUrl + url;
-        const allDetails = getProductsDetails(url);
-        return allDetails;
-    }));
-    return products;
+    const allProductsDetails = await getAllByChunks(allProductsUrls, []);
+    return allProductsDetails;
 };
 
 // const run = async () => {
-//     await getAllProductsDetails();
+//     const test = await getAllProductsDetails();
+//     // console.log(test);
 // };
 
 // run();

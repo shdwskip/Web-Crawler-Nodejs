@@ -10,8 +10,13 @@ const {
     getAllProductsDetails,
 } = require('./products-details-extract');
 
+const {
+    getProductsWithNoPromos,
+} = require('./desktopbg-urls-extract');
+
 module.exports = {
     getAllProductsUrls,
     getTotalPages,
     getAllProductsDetails,
+    getProductsWithNoPromos,
 };
