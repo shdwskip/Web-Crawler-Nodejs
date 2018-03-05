@@ -83,18 +83,18 @@ const getAllByChunks = async (allProductsUrls, allDetails) => {
     return getAllByChunks(allProductsUrls, allDetails);
 };
 
-const getAllProductsDetails = async () => {
+const getAllMonitorsDesktopBg = async () => {
     const allProductsUrls = await getProductsWithNoPromos();
     const allProductsDetails = await getAllByChunks(allProductsUrls, []);
     return allProductsDetails;
 };
 
 const run = async () => {
-    const test = await getAllProductsDetails();
+    const test = await getAllMonitorsDesktopBg();
     // console.log(test);
 };
 
 run();
 module.exports = {
-    getAllProductsDetails,
+    getAllMonitorsDesktopBg,
 };

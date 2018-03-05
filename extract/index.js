@@ -14,9 +14,14 @@ const {
     getProductsWithNoPromos,
 } = require('./desktopbg-urls-extract');
 
+const {
+    getAllMonitorsDesktopBg,
+} = require('./desktopbg-details-extract');
+
 module.exports = {
     getAllProductsUrls,
     getTotalPages,
     getAllProductsDetails,
     getProductsWithNoPromos,
+    getAllMonitorsDesktopBg,
 };
