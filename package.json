@@ -13,6 +13,9 @@
   "devDependencies": {
     "jquery": "^3.3.1",
     "jsdom": "^11.6.2",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "mysql2": "^1.5.2",
+    "sequelize": "^4.35.2",
+    "sequelize-auto-migrations": "^1.0.2"
   }
 }
