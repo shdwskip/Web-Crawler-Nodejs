@@ -1,11 +1,13 @@
-const domParser = require('../dom-parser');
+const domParser = require('../../dom-parser');
 const {
     TECHNOPOLIS,
-} = require('../selectors');
+} = require('../../selectors');
 
 const {
     getAllProductsUrls,
 } = require('./products-urls-extract');
+
+const _ = require('lodash');
 
 const getProductPrice = async ($) => {
     const $spanWithPrice = $(TECHNOPOLIS.priceValue)[0].innerHTML;
@@ -25,27 +27,55 @@ const getProductImage = async ($) => {
     return $imageUrl;
 };
 
+const parseProductDetails = async (child, index, arr, monitorChars) => {
+    if (index % 2 === 0) {
+        child = child.innerHTML;
+        let nextChild = arr[index + 1].innerHTML;
+        if (child === 'Марка') {
+            monitorChars.vendor = nextChild;
+        } else if (child === 'МОДЕЛ') {
+            monitorChars.model = nextChild;
+        } else if (child === 'ДИСПЛЕЙ') {
+            nextChild = nextChild.split(', ');
+            monitorChars.display = nextChild[nextChild.length - 1];
+        } else if (child === 'РАЗМЕР НА ЕКРАНА В INCH') {
+            monitorChars.size = nextChild;
+        } else if (child === 'РЕЗОЛЮЦИЯ') {
+            monitorChars.resolution = nextChild;
+        } else if (child === 'ГАРАНЦИЯ') {
+            monitorChars.warranty = nextChild;
+        } else if (child === 'ИНТЕРФЕЙС') {
+            if (nextChild.indexOf('HDMI') > 0) {
+                monitorChars.hdmi = 'Yes';
+            }
+            if (nextChild.indexOf('D.Port') > 0) {
+                monitorChars.display_port = 'Yes';
+            }
+        } else if (child === 'ЦВЯТ') {
+            monitorChars.color = nextChild;
+        }
+    }
+};
 const getProductDetails = async (productUrl) => {
     const $ = await domParser.initDomParser(productUrl);
     const monitorPrice = await getProductPrice($);
     const monitorImage = await getProductImage($);
     const monitorChars = {
-        Цена: monitorPrice,
-        Снимка: monitorImage,
+        price: monitorPrice,
+        picture: monitorImage,
+        vendor: '',
+        model: '',
+        display: '',
+        size: '',
+        resolution: '',
+        warranty: '',
+        hdmi: 'No',
+        display_port: 'No',
+        color: '',
     };
     const $monitorDetails = [...$(TECHNOPOLIS.monitorDetails).children()];
     $monitorDetails.forEach((child, index, arr) => {
-        if (index % 2 === 0) {
-            monitorChars[child.innerHTML] = '';
-        } else {
-            if (child.innerHTML.indexOf('НЕ') > 0) {
-                monitorChars[arr[index - 1].innerHTML] = 'NO';
-            } else if (child.innerHTML.indexOf('ДА') > 0) {
-                monitorChars[arr[index - 1].innerHTML] = 'YES';
-            } else {
-                monitorChars[arr[index - 1].innerHTML] = child.innerHTML;
-            }
-        }
+       return parseProductDetails(child, index, arr, monitorChars);
     });
 
     return monitorChars;
@@ -68,7 +98,7 @@ const getAllByChunks = async (allProductsUrls, allDetails) => {
 const getAllProductsDetails = async () => {
     const allProductsUrls = await getAllProductsUrls(TECHNOPOLIS.url, 0);
     const allProductsDetails = await getAllByChunks(allProductsUrls, []);
-    return allProductsDetails;
+    return _.flatten(allProductsDetails);
 };
 
 // const run = async () => {

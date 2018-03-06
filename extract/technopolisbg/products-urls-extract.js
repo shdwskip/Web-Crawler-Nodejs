@@ -1,7 +1,7 @@
-const domParser = require('../dom-parser');
+const domParser = require('../../dom-parser');
 const {
     TECHNOPOLIS,
-} = require('../selectors');
+} = require('../../selectors');
 
 const getProductsFromCurrentPage = async (urlLink) => {
     const $ = await domParser.initDomParser(urlLink);

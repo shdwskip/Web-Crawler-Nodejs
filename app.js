@@ -2,21 +2,29 @@ const {
     getAllProductsUrls,
     getTotalPages,
     getAllProductsDetails,
+    getAllMonitorsDesktopBg,
+    getProductsWithNoPromos,
 } = require('./extract');
 
 const {
     TECHNOPOLIS,
+    DESKTOPBG,
 } = require('./selectors');
 
 const run = async () => {
-    const pages = await getTotalPages();
-    console.log('PAGES:', pages);
-    const allProducts = await getAllProductsUrls(TECHNOPOLIS.url, 0);
-    console.log(allProducts);
+    // const pages = await getTotalPages();
+    // console.log('PAGES:', pages);
+    // const allProducts = await getAllProductsUrls(TECHNOPOLIS.url, 0);
+    // console.log(allProducts);
+    console.log('===========TECHNOPOLIS=============');
     const details = await getAllProductsDetails();
-    console.log('================================');
-    details.forEach((monitor, index) => console.log(monitor));
-    return pages;
+    details.forEach((monitor) => console.log(monitor));
+    // console.log('================================');
+    console.log('==========DESKTOPBG=============');
+    // const desktopbgUrls = await getProductsWithNoPromos();
+    // console.log(desktopbgUrls);
+    const desktopbgMonitors = await getAllMonitorsDesktopBg();
+    desktopbgMonitors.forEach((monitor) => console.log(monitor));
 };
 
 run();

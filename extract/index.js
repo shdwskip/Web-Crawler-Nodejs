@@ -1,22 +1,22 @@
 const {
     getAllProductsUrls,
-} = require('./products-urls-extract');
+} = require('./technopolisbg/products-urls-extract');
 
 const {
     getTotalPages,
-} = require('./total-pages-technopolis-extract');
+} = require('./technopolisbg/total-pages-technopolis-extract');
 
 const {
     getAllProductsDetails,
-} = require('./products-details-extract');
+} = require('./technopolisbg/products-details-extract');
 
 const {
     getProductsWithNoPromos,
-} = require('./desktopbg-urls-extract');
+} = require('./desktopbg/desktopbg-urls-extract');
 
 const {
     getAllMonitorsDesktopBg,
-} = require('./desktopbg-details-extract');
+} = require('./desktopbg/desktopbg-details-extract');
 
 module.exports = {
     getAllProductsUrls,

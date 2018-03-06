@@ -1,7 +1,7 @@
-const domParser = require('../dom-parser');
+const domParser = require('../../dom-parser');
 const {
     DESKTOPBG,
-} = require('../selectors');
+} = require('../../selectors');
 
 const getProductsFromCurrentPage = async (urlLink) => {
     const $ = await domParser.initDomParser(urlLink);
@@ -24,13 +24,8 @@ const getAllUrls = async (link, page) => {
 };
 
 const getProductsWithNoPromos = async () => {
-    const allUrls = await getAllUrls(DESKTOPBG.url, 1);
-    allUrls.forEach((url, index) => {
-        const afterMainUrl = url.substring(url.indexOf('.bg') + 3);
-        if (!(afterMainUrl.startsWith('/displays'))) {
-            allUrls.splice(index, 1);
-        }
-    });
+    let allUrls = await getAllUrls(DESKTOPBG.url, 1);
+    allUrls = allUrls.filter((url) => url.includes('displays'));
     return allUrls;
 };
 // const run = async () => {
