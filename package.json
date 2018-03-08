@@ -17,5 +17,9 @@
     "mysql2": "^1.5.2",
     "sequelize": "^4.35.2",
     "sequelize-auto-migrations": "^1.0.2"
+  },
+  "scripts": {
+    "add-migration": "node ./node_modules/sequelize-auto-migrations/bin/makemigration.js",
+    "migrate": "sequelize db:migrate"
   }
 }
