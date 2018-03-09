@@ -5,29 +5,20 @@ var Sequelize = require('sequelize');
 /**
  * Actions summary:
  *
- * dropTable "model-store"
- * dropTable "model-specs"
  * createTable "model_store", deps: [models, stores]
  * createTable "model_specs", deps: [models, specs]
+ * addColumn "vendorId" to table "models"
  *
  **/
 
 var info = {
-    "revision": 6,
-    "name": "changed_through_tables",
-    "created": "2018-03-08T12:46:04.312Z",
+    "revision": 2,
+    "name": "created-associations",
+    "created": "2018-03-09T17:08:59.737Z",
     "comment": ""
 };
 
 var migrationCommands = [{
-        fn: "dropTable",
-        params: ["model-store"]
-    },
-    {
-        fn: "dropTable",
-        params: ["model-specs"]
-    },
-    {
         fn: "createTable",
         params: [
             "model_store",
@@ -99,6 +90,23 @@ var migrationCommands = [{
                 }
             },
             {}
+        ]
+    },
+    {
+        fn: "addColumn",
+        params: [
+            "models",
+            "vendorId",
+            {
+                "type": Sequelize.INTEGER,
+                "onUpdate": "CASCADE",
+                "onDelete": "CASCADE",
+                "references": {
+                    "model": "vendors",
+                    "key": "id"
+                },
+                "allowNull": false
+            }
         ]
     }
 ];

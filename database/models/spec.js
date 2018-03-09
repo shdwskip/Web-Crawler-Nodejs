@@ -6,10 +6,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     value: {
-      type: DataTypes.STRING,
+      /* eslint-disable */
+      type: DataTypes.STRING(255),
+      /* eslint-enable */
       allowNull: false,
     },
-  }, {});
+  }, {
+    indexes: [{
+      unique: true,
+      fields: ['type', 'value'],
+    }],
+  });
   spec.associate = (models) => {
     // associations can be defined here
   };

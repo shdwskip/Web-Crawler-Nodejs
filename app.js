@@ -7,6 +7,10 @@ const {
 } = require('./extract');
 
 const {
+    saveMonitorsInDb,
+} = require('./interact-database');
+
+const {
     TECHNOPOLIS,
     DESKTOPBG,
 } = require('./selectors');
@@ -20,11 +24,12 @@ const run = async () => {
     const details = await getAllProductsDetails();
     details.forEach((monitor) => console.log(monitor));
     // console.log('================================');
-    console.log('==========DESKTOPBG=============');
+    console.log('==========DESKTOPBG=================');
     // const desktopbgUrls = await getProductsWithNoPromos();
     // console.log(desktopbgUrls);
     const desktopbgMonitors = await getAllMonitorsDesktopBg();
     desktopbgMonitors.forEach((monitor) => console.log(monitor));
+    // await saveMonitorsInDb();
 };
 
 run();

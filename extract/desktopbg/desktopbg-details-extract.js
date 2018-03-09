@@ -42,14 +42,14 @@ const parseProductDetails = async (child, index, arr, monitorChars) => {
             nextChild = nextChild.split(' гаранция');
             monitorChars.warranty = nextChild[0];
         } else if (child === 'HDMI' && nextChild.indexOf('Да') > 0) {
-            monitorChars.hdmi = 'Yes';
+            monitorChars.hdmi = 'YES';
         } else if (child === 'DisplayPort' && nextChild.indexOf('Да') > 0) {
-            monitorChars.display_port = 'Yes';
+            monitorChars.display_port = 'YES';
         } else if (child === 'Цвят на корпуса') {
             const startIndex = nextChild.indexOf('">') + 2;
             const endIndex = nextChild.indexOf('</');
             nextChild = nextChild.substring(startIndex, endIndex);
-            monitorChars.color = nextChild;
+            monitorChars.color = nextChild.toLowerCase();
         }
     }
 };
@@ -60,16 +60,17 @@ const getProductDetails = async (productUrl) => {
     const monitorImage = await getProductImage($);
     const [vendor, model] = await getProductModel($);
     const monitorChars = {
+        store: 'DESKTOPBG',
         price: monitorPrice,
         picture: monitorImage,
-        vendor,
+        vendor: vendor.toLowerCase(),
         model,
         display: '',
         size: '',
         resolution: '',
         warranty: '',
-        hdmi: 'No',
-        display_port: 'No',
+        hdmi: 'NO',
+        display_port: 'NO',
         color: '',
     };
     const $monitorDetails = [...$(DESKTOPBG.monitorDetails).children()];

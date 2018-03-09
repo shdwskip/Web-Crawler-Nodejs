@@ -19,7 +19,7 @@
                 },
                 "price": {
                     "allowNull": false,
-                    "seqType": "Sequelize.DECIMAL"
+                    "seqType": "Sequelize.FLOAT(10, 2)"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -28,6 +28,16 @@
                 "updatedAt": {
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
+                },
+                "vendorId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "vendors",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -71,6 +81,7 @@
                 },
                 "name": {
                     "allowNull": false,
+                    "unique": true,
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -95,6 +106,7 @@
                 },
                 "name": {
                     "allowNull": false,
+                    "unique": true,
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -104,16 +116,6 @@
                 "updatedAt": {
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
-                },
-                "modelId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "models",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -187,5 +189,5 @@
             "indexes": []
         }
     },
-    "revision": 6
+    "revision": 2
 }

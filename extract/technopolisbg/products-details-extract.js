@@ -32,7 +32,7 @@ const parseProductDetails = async (child, index, arr, monitorChars) => {
         child = child.innerHTML;
         let nextChild = arr[index + 1].innerHTML;
         if (child === 'Марка') {
-            monitorChars.vendor = nextChild;
+            monitorChars.vendor = nextChild.toLowerCase();
         } else if (child === 'МОДЕЛ') {
             monitorChars.model = nextChild;
         } else if (child === 'ДИСПЛЕЙ') {
@@ -41,18 +41,19 @@ const parseProductDetails = async (child, index, arr, monitorChars) => {
         } else if (child === 'РАЗМЕР НА ЕКРАНА В INCH') {
             monitorChars.size = nextChild;
         } else if (child === 'РЕЗОЛЮЦИЯ') {
-            monitorChars.resolution = nextChild;
+            nextChild = nextChild.split(/[x@]/i);
+            monitorChars.resolution = nextChild[0] + ' x ' + nextChild[1];
         } else if (child === 'ГАРАНЦИЯ') {
-            monitorChars.warranty = nextChild;
+            monitorChars.warranty = nextChild.toLowerCase();
         } else if (child === 'ИНТЕРФЕЙС') {
             if (nextChild.indexOf('HDMI') > 0) {
-                monitorChars.hdmi = 'Yes';
+                monitorChars.hdmi = 'YES';
             }
             if (nextChild.indexOf('D.Port') > 0) {
-                monitorChars.display_port = 'Yes';
+                monitorChars.display_port = 'YES';
             }
         } else if (child === 'ЦВЯТ') {
-            monitorChars.color = nextChild;
+            monitorChars.color = nextChild.toLowerCase();
         }
     }
 };
@@ -61,6 +62,7 @@ const getProductDetails = async (productUrl) => {
     const monitorPrice = await getProductPrice($);
     const monitorImage = await getProductImage($);
     const monitorChars = {
+        store: 'TECHNOPOLIS',
         price: monitorPrice,
         picture: monitorImage,
         vendor: '',
@@ -69,8 +71,8 @@ const getProductDetails = async (productUrl) => {
         size: '',
         resolution: '',
         warranty: '',
-        hdmi: 'No',
-        display_port: 'No',
+        hdmi: 'NO',
+        display_port: 'NO',
         color: '',
     };
     const $monitorDetails = [...$(TECHNOPOLIS.monitorDetails).children()];

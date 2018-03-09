@@ -19,7 +19,7 @@
                 },
                 "price": {
                     "allowNull": false,
-                    "seqType": "Sequelize.DECIMAL"
+                    "seqType": "Sequelize.FLOAT(10, 2)"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -57,7 +57,7 @@
                 },
                 "value": {
                     "allowNull": false,
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.STRING(255)"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -68,7 +68,18 @@
                     "seqType": "Sequelize.DATE"
                 }
             },
-            "indexes": []
+            "indexes": {
+                "87983df9df9fe8649be874240f04c6fe9793a57e": {
+                    "unique": true,
+                    "fields": [
+                        "type",
+                        "value"
+                    ],
+                    "options": {
+                        "indicesType": "UNIQUE"
+                    }
+                }
+            }
         },
         "stores": {
             "tableName": "stores",
@@ -81,6 +92,7 @@
                 },
                 "name": {
                     "allowNull": false,
+                    "unique": true,
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -105,6 +117,7 @@
                 },
                 "name": {
                     "allowNull": false,
+                    "unique": true,
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -187,5 +200,5 @@
             "indexes": []
         }
     },
-    "revision": 7
+    "revision": 3
 }
