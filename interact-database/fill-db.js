@@ -28,6 +28,20 @@ const testMonitors = [{
     },
     {
         store: 'TECHNOPOLIS',
+        price: '239.00',
+        picture: 'http://www.technopolis.bg/medias/sys_master/h6b/h94/9870642348062.jpg',
+        vendor: 'philips',
+        model: '227E6LDAD/00',
+        display: 'LCD',
+        size: '21.5 "',
+        resolution: '1920 x 1080',
+        warranty: '24 месеца',
+        hdmi: 'NO',
+        display_port: 'NO',
+        color: 'черен',
+    },
+    {
+        store: 'TECHNOPOLIS',
         price: '229.00',
         picture: 'http://www.technopolis.bg/medias/sys_master/h4e/hb4/9911779000350.jpg',
         vendor: 'philips',
@@ -85,56 +99,64 @@ const testMonitors = [{
 ];
 
 const addMonitor = async (obj) => {
-    const vendors = (await vendor.findCreateFind({
+    const foundMonitor = await model.findAll({
         where: {
-            name: obj.vendor,
+            picture: obj.picture,
         },
-    }));
+    });
 
-    const models = (await model.create({
-        name: obj.model,
-        picture: obj.picture,
-        price: obj.price,
-        vendorId: vendors[0].id,
-    }));
-
-    const stores = (await store.findCreateFind({
-        where: {
-            name: obj.store,
-        },
-    }));
-
-    const specsObj = {
-        display: obj.display,
-        size: obj.size,
-        resolution: obj.resolution,
-        warranty: obj.warranty,
-        hdmi: obj.hdmi,
-        display_port: obj.display_port,
-        color: obj.color,
-    };
-
-    let keys = Object.keys(specsObj);
-
-    keys = await Promise.all(keys.map(async (key) => {
-        const currentSpec = (await spec.findCreateFind({
+    if (foundMonitor.length === 0) {
+        const vendors = await vendor.findCreateFind({
             where: {
-                type: key,
-                value: specsObj[key],
+                name: obj.vendor,
             },
-        }));
-        return currentSpec[0].id;
-    }));
+        });
 
-    models.setSpecs(keys);
-    models.setStores([stores[0].id]);
+        const models = await model.create({
+            name: obj.model,
+            picture: obj.picture,
+            price: obj.price,
+            vendorId: vendors[0].id,
+        });
+
+        const stores = await store.findCreateFind({
+            where: {
+                name: obj.store,
+            },
+        });
+
+        const specsObj = {
+            display: obj.display,
+            size: obj.size,
+            resolution: obj.resolution,
+            warranty: obj.warranty,
+            hdmi: obj.hdmi,
+            display_port: obj.display_port,
+            color: obj.color,
+        };
+
+        let keys = Object.keys(specsObj);
+
+        keys = await Promise.all(keys.map(async (key) => {
+            const currentSpec = await spec.findCreateFind({
+                where: {
+                    type: key,
+                    value: specsObj[key],
+                },
+            });
+            return currentSpec[0].id;
+        }));
+
+        models.setSpecs(keys);
+        models.setStores([stores[0].id]);
+    }
 };
 
 const saveMonitorsInDb = async () => {
-    const data = _.flatten([await getAllMonitorsDesktopBg(),
-        await getAllProductsDetails(),
-    ]);
-
+    const data = _.flatten(
+        [await getAllMonitorsDesktopBg(),
+        await getAllProductsDetails()]);
+    console.log('Done scraping!');
     await Promise.all(data.map((monitor) => {
         return addMonitor(monitor);
     }));
@@ -142,6 +164,7 @@ const saveMonitorsInDb = async () => {
 
 const run = async () => {
     await saveMonitorsInDb();
+    console.log('Finished!');
 };
 
 run();

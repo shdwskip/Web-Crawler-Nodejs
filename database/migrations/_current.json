@@ -57,7 +57,7 @@
                 },
                 "value": {
                     "allowNull": false,
-                    "seqType": "Sequelize.STRING(255)"
+                    "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -200,5 +200,5 @@
             "indexes": []
         }
     },
-    "revision": 3
+    "revision": 1
 }

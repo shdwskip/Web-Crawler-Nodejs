@@ -5,56 +5,24 @@ var Sequelize = require('sequelize');
 /**
  * Actions summary:
  *
- * createTable "models", deps: []
  * createTable "specs", deps: []
  * createTable "stores", deps: []
  * createTable "vendors", deps: []
+ * createTable "models", deps: [vendors]
+ * createTable "model_store", deps: [models, stores]
+ * createTable "model_specs", deps: [models, specs]
+ * addIndex ["type","value"] to table "specs"
  *
  **/
 
 var info = {
     "revision": 1,
-    "name": "created-models",
-    "created": "2018-03-09T17:07:55.983Z",
+    "name": "all-set",
+    "created": "2018-03-10T14:11:47.735Z",
     "comment": ""
 };
 
 var migrationCommands = [{
-        fn: "createTable",
-        params: [
-            "models",
-            {
-                "id": {
-                    "type": Sequelize.INTEGER,
-                    "autoIncrement": true,
-                    "primaryKey": true,
-                    "allowNull": false
-                },
-                "name": {
-                    "type": Sequelize.STRING,
-                    "allowNull": false
-                },
-                "picture": {
-                    "type": Sequelize.STRING,
-                    "allowNull": false
-                },
-                "price": {
-                    "type": Sequelize.FLOAT(10, 2),
-                    "allowNull": false
-                },
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
         fn: "createTable",
         params: [
             "specs",
@@ -139,6 +107,134 @@ var migrationCommands = [{
                 }
             },
             {}
+        ]
+    },
+    {
+        fn: "createTable",
+        params: [
+            "models",
+            {
+                "id": {
+                    "type": Sequelize.INTEGER,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false
+                },
+                "name": {
+                    "type": Sequelize.STRING,
+                    "allowNull": false
+                },
+                "picture": {
+                    "type": Sequelize.STRING,
+                    "allowNull": false
+                },
+                "price": {
+                    "type": Sequelize.FLOAT(10, 2),
+                    "allowNull": false
+                },
+                "createdAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "updatedAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "vendorId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE",
+                    "references": {
+                        "model": "vendors",
+                        "key": "id"
+                    },
+                    "allowNull": false
+                }
+            },
+            {}
+        ]
+    },
+    {
+        fn: "createTable",
+        params: [
+            "model_store",
+            {
+                "createdAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "updatedAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "modelId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE",
+                    "references": {
+                        "model": "models",
+                        "key": "id"
+                    },
+                    "primaryKey": true
+                },
+                "storeId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE",
+                    "references": {
+                        "model": "stores",
+                        "key": "id"
+                    },
+                    "primaryKey": true
+                }
+            },
+            {}
+        ]
+    },
+    {
+        fn: "createTable",
+        params: [
+            "model_specs",
+            {
+                "createdAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "updatedAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "modelId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE",
+                    "references": {
+                        "model": "models",
+                        "key": "id"
+                    },
+                    "primaryKey": true
+                },
+                "specId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE",
+                    "references": {
+                        "model": "specs",
+                        "key": "id"
+                    },
+                    "primaryKey": true
+                }
+            },
+            {}
+        ]
+    },
+    {
+        fn: "addIndex",
+        params: [
+            "specs", ["type", "value"],
+            {
+                "indicesType": "UNIQUE"
+            }
         ]
     }
 ];

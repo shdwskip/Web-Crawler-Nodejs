@@ -6,9 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     value: {
-      /* eslint-disable */
-      type: DataTypes.STRING(255),
-      /* eslint-enable */
+      type: DataTypes.STRING,
       allowNull: false,
     },
   }, {
