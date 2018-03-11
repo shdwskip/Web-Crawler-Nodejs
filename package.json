@@ -21,6 +21,7 @@
   "scripts": {
     "add-migration": "node ./node_modules/sequelize-auto-migrations/bin/makemigration.js",
     "migrate": "sequelize db:migrate",
-    "update": "node ./interact-database/fill-db.js"
+    "update": "node ./interact-database/fill-db.js",
+    "statistics": "node ./interact-database/statistics.js"
   }
 }
