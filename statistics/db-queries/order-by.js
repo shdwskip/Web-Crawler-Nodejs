@@ -3,7 +3,7 @@ const {
     spec,
     vendor,
     store,
-} = require('../database/models');
+} = require('../../database/models');
 
 const Sequelize = require('sequelize');
 

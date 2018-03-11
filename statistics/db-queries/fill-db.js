@@ -5,12 +5,12 @@ const {
     model,
     spec,
     store,
-} = require('../database/models');
+} = require('../../database/models');
 
 const {
     getAllProductsDetails,
     getAllMonitorsDesktopBg,
-} = require('../extract');
+} = require('../../extract');
 
 const testMonitors = [{
         store: 'TECHNOPOLIS',
