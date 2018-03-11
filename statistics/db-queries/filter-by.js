@@ -11,12 +11,8 @@ let Op = Sequelize.Op;
 
 const filterBy = async (column, param, val) => {
     let filteredRecords;
-    console.log('Column:', column);
-    console.log('Param:', param);
-    console.log('Value:', val);
     if (column === 'color' || column === 'display') {
         filteredRecords = await model.findAll({
-            limit: 5,
             include: [{
                     model: spec,
                     order: Sequelize.col('value'),
@@ -41,7 +37,7 @@ const filterBy = async (column, param, val) => {
         } else if (param === 'lt') {
             Op = Op.lt;
         }
-        console.log('Op:', Op);
+
         filteredRecords = await model.findAll({
             include: [{
                     model: spec,
@@ -61,6 +57,9 @@ const filterBy = async (column, param, val) => {
                 },
             ],
         });
+    } else {
+        console.log('Column not found!');
+        return;
     }
 
     filteredRecords.map((record) => console.log(record.get({

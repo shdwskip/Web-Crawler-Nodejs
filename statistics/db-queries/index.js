@@ -10,8 +10,13 @@ const {
     filterBy,
 } = require('./filter-by');
 
+const {
+    searchFor,
+} = require('./search-for');
+
 module.exports = {
     saveMonitorsInDb,
     orderBy,
     filterBy,
+    searchFor,
 };
