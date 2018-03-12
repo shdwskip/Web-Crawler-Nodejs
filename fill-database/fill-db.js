@@ -5,12 +5,12 @@ const {
     model,
     spec,
     store,
-} = require('../../database/models');
+} = require('../database/models');
 
 const {
     getAllProductsDetails,
     getAllMonitorsDesktopBg,
-} = require('../../extract');
+} = require('../extract');
 
 const testMonitors = [{
         store: 'TECHNOPOLIS',
@@ -153,22 +153,16 @@ const addMonitor = async (obj) => {
 };
 
 const saveMonitorsInDb = async () => {
+    // ASK DONCHO:
     const data = _.flatten(
         [await getAllMonitorsDesktopBg(),
         await getAllProductsDetails()]);
+    // ==================================
     console.log('Done scraping!');
     await Promise.all(data.map((monitor) => {
         return addMonitor(monitor);
     }));
 };
 
-const run = async () => {
-    await saveMonitorsInDb();
-    console.log('Finished!');
-};
-
-run();
-
-module.exports = {
-    saveMonitorsInDb,
-};
+saveMonitorsInDb();
+console.log('Finished!');

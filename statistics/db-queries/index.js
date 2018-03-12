@@ -1,8 +1,4 @@
 const {
-    saveMonitorsInDb,
-} = require('./fill-db');
-
-const {
     orderBy,
 } = require('./order-by');
 
@@ -15,7 +11,6 @@ const {
 } = require('./search-for');
 
 module.exports = {
-    saveMonitorsInDb,
     orderBy,
     filterBy,
     searchFor,

@@ -15,20 +15,30 @@ const filterBy = async (column, param, val) => {
         filteredRecords = await model.findAll({
             include: [{
                     model: spec,
+                    attributes: ['type', 'value'],
                     order: Sequelize.col('value'),
                     where: {
                         type: column,
                         value: {
-                            [Op.eq]: param,
+                            $eq: param,
                         },
                     },
                 },
                 {
                     model: vendor,
+                    attributes: ['name'],
                 },
                 {
                     model: store,
+                    attributes: ['name'],
                 },
+            ],
+            attributes: [
+                Sequelize.col('vendor.name'),
+                ['name', 'model'], 'price', 'picture',
+                Sequelize.col('specs.type'),
+                Sequelize.col('specs.value'),
+                Sequelize.col('stores.name'),
             ],
         });
     } else if (column === 'size' || column === 'warranty') {
@@ -41,6 +51,7 @@ const filterBy = async (column, param, val) => {
         filteredRecords = await model.findAll({
             include: [{
                     model: spec,
+                    attributes: ['type', 'value'],
                     order: Sequelize.col('value'),
                     where: {
                         type: column,
@@ -51,10 +62,19 @@ const filterBy = async (column, param, val) => {
                 },
                 {
                     model: vendor,
+                    attributes: ['name'],
                 },
                 {
                     model: store,
+                    attributes: ['name'],
                 },
+            ],
+            attributes: [
+                Sequelize.col('vendor.name'),
+                ['name', 'model'], 'price', 'picture',
+                Sequelize.col('specs.type'),
+                Sequelize.col('specs.value'),
+                Sequelize.col('stores.name'),
             ],
         });
     } else {
