@@ -1,10 +1,15 @@
 /* globals process */
+const chalk = require('chalk');
 
 const {
     orderBy,
     filterBy,
     searchFor,
 } = require('./db-queries');
+
+const {
+    visualize,
+} = require('./visualize-data/visualize');
 
 const run = async () => {
     const command = process.argv[2];
@@ -13,13 +18,22 @@ const run = async () => {
     const value = process.argv[5];
 
     if (command === 'order-by') {
-        await orderBy(column);
+        const result = await orderBy(column);
+        if (result) {
+            visualize(result);
+        }
     } else if (command === 'filter') {
-        await filterBy(column, param, value);
+        const result = await filterBy(column, param, value);
+        if (result) {
+            visualize(result);
+        }
     } else if (command === 'search') {
-        await searchFor(column);
+        const result = await searchFor(column);
+        if (result) {
+            visualize(result);
+        }
     } else {
-        console.log('Command not recognized!');
+        console.log(chalk.red.bold(`Command '${command}' not recognized!`));
         return;
     }
 };

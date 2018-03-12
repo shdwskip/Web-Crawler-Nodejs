@@ -103,12 +103,6 @@ const getAllProductsDetails = async () => {
     return _.flatten(allProductsDetails);
 };
 
-// const run = async () => {
-//     const test = await getAllProductsDetails();
-//     // console.log(test);
-// };
-
-// run();
 module.exports = {
     getAllProductsDetails,
 };

@@ -1,3 +1,6 @@
+const Sequelize = require('sequelize');
+const chalk = require('chalk');
+
 const {
     model,
     spec,
@@ -5,11 +8,8 @@ const {
     store,
 } = require('../../database/models');
 
-const Sequelize = require('sequelize');
-
-let Op = Sequelize.Op;
-
 const filterBy = async (column, param, val) => {
+    let Op = Sequelize.Op;
     let filteredRecords;
     if (column === 'color' || column === 'display') {
         filteredRecords = await model.findAll({
@@ -41,6 +41,9 @@ const filterBy = async (column, param, val) => {
                 Sequelize.col('stores.name'),
             ],
         });
+        if (filteredRecords.length === 0) {
+            console.log(chalk.red.bold('Nothing found, check your command!'));
+        }
     } else if (column === 'size' || column === 'warranty') {
         if (param === 'gt') {
             Op = Op.gt;
@@ -77,14 +80,18 @@ const filterBy = async (column, param, val) => {
                 Sequelize.col('stores.name'),
             ],
         });
+        if (filteredRecords.length === 0) {
+            console.log(chalk.red.bold('Nothing found, check your command!'));
+        }
     } else {
-        console.log('Column not found!');
-        return;
+        console.log(chalk.red.bold('Column not found!'));
     }
-
-    filteredRecords.map((record) => console.log(record.get({
-        plain: true,
-    })));
+    if (typeof filteredRecords !== 'undefined') {
+        filteredRecords = filteredRecords.map((record) => record.get({
+            plain: true,
+        }));
+    }
+    return filteredRecords;
 };
 
 module.exports = {

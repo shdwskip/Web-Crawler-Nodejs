@@ -1,11 +1,12 @@
+const Sequelize = require('sequelize');
+const chalk = require('chalk');
+
 const {
     model,
     spec,
     vendor,
     store,
 } = require('../../database/models');
-
-const Sequelize = require('sequelize');
 
 const orderBy = async (column) => {
     let orderedRecords;
@@ -67,12 +68,14 @@ const orderBy = async (column) => {
             ],
         });
     } else {
-        console.log('Column not found!');
-        return;
+        console.log(chalk.red.bold('Column not found!'));
     }
-    orderedRecords.map((record) => console.log(record.get({
-        plain: true,
-    })));
+    if (typeof orderedRecords !== 'undefined') {
+        orderedRecords = orderedRecords.map((record) => (record.get({
+            plain: true,
+        })));
+    }
+    return orderedRecords;
 };
 
 module.exports = {

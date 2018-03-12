@@ -28,12 +28,6 @@ const getProductsWithNoPromos = async () => {
     allUrls = allUrls.filter((url) => url.includes('displays'));
     return allUrls;
 };
-// const run = async () => {
-//     const test = await getProductsWithNoPromos();
-//     test.forEach((url) => console.log(url));
-// };
-
-// run();
 
 module.exports = {
     getProductsWithNoPromos,

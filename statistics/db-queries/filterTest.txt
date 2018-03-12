@@ -1,5 +1,0 @@
-
-> Web-Crawler-Nodejs@1.0.0 statistics C:\Users\denev\Documents\Code\Web-Crawler-Nodejs
-> node ./statistics/statistics.js "filter" "sizgase" "gt" "24"
-
-Column not found!

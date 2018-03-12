@@ -1,3 +1,6 @@
+const Sequelize = require('sequelize');
+const chalk = require('chalk');
+
 const {
     model,
     spec,
@@ -5,10 +8,8 @@ const {
     store,
 } = require('../../database/models');
 
-const Sequelize = require('sequelize');
-
 const searchFor = async (searchVal) => {
-    const foundRecords = await model.findAll({
+    let foundRecords = await model.findAll({
         include: [{
                 model: spec,
                 where: {
@@ -52,12 +53,13 @@ const searchFor = async (searchVal) => {
         ],
     });
     if (foundRecords.length !== 0) {
-        foundRecords.map((record) => console.log(record.get({
+        foundRecords = foundRecords.map((record) => record.get({
             plain: true,
-        })));
+        }));
     } else {
-        console.log('Searched value not found!');
+        console.log(chalk.red.bold('Searched value not found!'));
     }
+    return foundRecords;
 };
 
 module.exports = {

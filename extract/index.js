@@ -3,10 +3,6 @@ const {
 } = require('./technopolisbg/products-urls-extract');
 
 const {
-    getTotalPages,
-} = require('./technopolisbg/total-pages-technopolis-extract');
-
-const {
     getAllProductsDetails,
 } = require('./technopolisbg/products-details-extract');
 
@@ -20,7 +16,6 @@ const {
 
 module.exports = {
     getAllProductsUrls,
-    getTotalPages,
     getAllProductsDetails,
     getProductsWithNoPromos,
     getAllMonitorsDesktopBg,
