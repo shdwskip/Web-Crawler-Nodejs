@@ -15,11 +15,11 @@ const visualize = (arr) => {
                 store: x.name,
             };
         }));
-        console.log(store);
-        console.log(chalk.blue('Vendor:'), obj.vendor.name);
-        console.log(chalk.blue('Model:'), obj.model);
-        console.log(chalk.blue('Price:'), obj.price);
-        console.log(chalk.blue('Picture:'), obj.picture, '\n');
+        console.log(chalk.blue(store));
+        console.log(chalk.yellow('Vendor:', obj.vendor.name));
+        console.log(chalk.yellow('Model:', obj.model));
+        console.log(chalk.yellow('Price:', obj.price));
+        console.log(chalk.yellow('Picture:', obj.picture, '\n'));
         console.log(chalk.green(specs));
         console.log(chalk.red('='.repeat(40)));
     });

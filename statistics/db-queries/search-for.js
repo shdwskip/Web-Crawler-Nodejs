@@ -14,17 +14,9 @@ const searchFor = async (searchVal) => {
                 model: spec,
                 where: {
                     $or: [{
-                            $and: [{
-                                    type: {
-                                        like: '%' + searchVal + '%',
-                                    },
-                                },
-                                {
-                                    value: {
-                                        $eq: 'YES',
-                                    },
-                                },
-                            ],
+                            type: {
+                                like: '%' + searchVal + '%',
+                            },
                         },
                         {
                             value: {

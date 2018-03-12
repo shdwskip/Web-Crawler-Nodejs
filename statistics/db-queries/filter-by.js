@@ -11,6 +11,11 @@ const {
 const filterBy = async (column, param, val) => {
     let Op = Sequelize.Op;
     let filteredRecords;
+    if (param === 'gt') {
+        Op = Op.gt;
+    } else if (param === 'lt') {
+        Op = Op.lt;
+    }
     if (column === 'color' || column === 'display') {
         filteredRecords = await model.findAll({
             include: [{
@@ -45,12 +50,6 @@ const filterBy = async (column, param, val) => {
             console.log(chalk.red.bold('Nothing found, check your command!'));
         }
     } else if (column === 'size' || column === 'warranty') {
-        if (param === 'gt') {
-            Op = Op.gt;
-        } else if (param === 'lt') {
-            Op = Op.lt;
-        }
-
         filteredRecords = await model.findAll({
             include: [{
                     model: spec,
@@ -83,6 +82,35 @@ const filterBy = async (column, param, val) => {
         if (filteredRecords.length === 0) {
             console.log(chalk.red.bold('Nothing found, check your command!'));
         }
+    } else if (column === 'price') {
+        filteredRecords = await model.findAll({
+            include: [{
+                    model: spec,
+                    attributes: ['type', 'value'],
+                },
+                {
+                    model: vendor,
+                    attributes: ['name'],
+                },
+                {
+                    model: store,
+                    attributes: ['name'],
+                },
+            ],
+            attributes: [
+                Sequelize.col('vendor.name'),
+                ['name', 'model'], 'price', 'picture',
+                Sequelize.col('specs.type'),
+                Sequelize.col('specs.value'),
+                Sequelize.col('stores.name'),
+            ],
+            where: {
+                price: {
+                    [Op]: +val,
+                },
+            },
+            order: Sequelize.col('price'),
+        });
     } else {
         console.log(chalk.red.bold('Column not found!'));
     }
