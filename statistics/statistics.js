@@ -8,7 +8,7 @@ const {
 } = require('./db-queries');
 
 const {
-    visualize,
+    visualizeTable,
 } = require('./visualize-data/visualize');
 
 const run = async () => {
@@ -16,21 +16,22 @@ const run = async () => {
     const column = process.argv[3];
     const param = process.argv[4];
     const value = process.argv[5];
+    let result;
 
     if (command === 'order-by') {
-        const result = await orderBy(column);
+        result = await orderBy(column);
         if (result) {
-            visualize(result);
+            visualizeTable(result);
         }
     } else if (command === 'filter') {
-        const result = await filterBy(column, param, value);
+        result = await filterBy(column, param, value);
         if (result) {
-            visualize(result);
+            visualizeTable(result);
         }
     } else if (command === 'search') {
-        const result = await searchFor(column);
+        result = await searchFor(column);
         if (result) {
-            visualize(result);
+            visualizeTable(result);
         }
     } else {
         console.log(chalk.red.bold(`Command '${command}' not recognized!`));

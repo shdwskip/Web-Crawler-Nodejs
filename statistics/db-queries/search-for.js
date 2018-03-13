@@ -25,15 +25,12 @@ const searchFor = async (searchVal) => {
                         },
                     ],
                 },
-                attributes: ['type', 'value'],
             },
             {
                 model: vendor,
-                attributes: ['name'],
             },
             {
                 model: store,
-                attributes: ['name'],
             },
         ],
         attributes: [

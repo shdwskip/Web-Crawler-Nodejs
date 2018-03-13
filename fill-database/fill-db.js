@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const chalk = require('chalk');
 
 const {
     vendor,
@@ -11,92 +12,6 @@ const {
     getAllProductsDetails,
     getAllMonitorsDesktopBg,
 } = require('../extract');
-
-const testMonitors = [{
-        store: 'TECHNOPOLIS',
-        price: '129.00',
-        picture: 'http://www.technopolis.bg/medias/sys_master/h63/hd4/10366060167198.jpg',
-        vendor: 'acer',
-        model: 'EB192Qb',
-        display: 'МАТОВ',
-        size: '18.5 "',
-        resolution: '1366 x 768',
-        warranty: '24 месеца',
-        hdmi: 'NO',
-        display_port: 'NO',
-        color: 'черен',
-    },
-    {
-        store: 'TECHNOPOLIS',
-        price: '239.00',
-        picture: 'http://www.technopolis.bg/medias/sys_master/h6b/h94/9870642348062.jpg',
-        vendor: 'philips',
-        model: '227E6LDAD/00',
-        display: 'LCD',
-        size: '21.5 "',
-        resolution: '1920 x 1080',
-        warranty: '24 месеца',
-        hdmi: 'NO',
-        display_port: 'NO',
-        color: 'черен',
-    },
-    {
-        store: 'TECHNOPOLIS',
-        price: '229.00',
-        picture: 'http://www.technopolis.bg/medias/sys_master/h4e/hb4/9911779000350.jpg',
-        vendor: 'philips',
-        model: '227E7QDSB/00',
-        display: 'IPS',
-        size: '21.5 "',
-        resolution: '1920 x 1080',
-        warranty: '24 месеца',
-        hdmi: 'YES',
-        display_port: 'NO',
-        color: 'черен',
-    },
-    {
-        store: 'DESKTOPBG',
-        price: '579.00',
-        picture: 'https://www.desktop.bg/system/images/145928/normal/328E8QJAB5.jpg',
-        vendor: 'philips',
-        model: '328E8QJAB5',
-        display: 'WLED',
-        size: '31.5 "',
-        resolution: '1920 x 1080',
-        warranty: '24 месеца',
-        hdmi: 'YES',
-        display_port: 'YES',
-        color: 'черен',
-    },
-    {
-        store: 'TECHNOPOLIS',
-        price: '145.00',
-        picture: 'http://www.technopolis.bg/medias/sys_master/h57/h8b/8806149226526.jpg',
-        vendor: 'philips',
-        model: '193V5LSB2/10',
-        display: 'LED',
-        size: '18.5 "',
-        resolution: '1366 x 768',
-        warranty: '24 месеца',
-        hdmi: 'NO',
-        display_port: 'NO',
-        color: 'черен',
-    },
-    {
-        store: 'DESKTOPBG',
-        price: '589.00',
-        picture: 'https://www.desktop.bg/system/images/79087/normal/24GM77B.jpg',
-        vendor: 'lg',
-        model: '24GM77-B',
-        display: 'LED',
-        size: '24 "',
-        resolution: '1920 x 1080',
-        warranty: '36 месеца',
-        hdmi: 'YES',
-        display_port: 'YES',
-        color: 'черен',
-    },
-];
 
 const addMonitor = async (obj) => {
     const foundMonitor = await model.findAll({
@@ -153,16 +68,18 @@ const addMonitor = async (obj) => {
 };
 
 const saveMonitorsInDb = async () => {
-    // ASK DONCHO:
-    const data = _.flatten(
-        [await getAllMonitorsDesktopBg(),
-        await getAllProductsDetails()]);
-    // ==================================
-    console.log('Done scraping!');
+    const data = _.flatten(await Promise.all(
+        [getAllMonitorsDesktopBg(),
+            getAllProductsDetails(),
+        ]));
+    console.log(chalk.green.bold('Done scraping!'));
+
     await Promise.all(data.map((monitor) => {
         return addMonitor(monitor);
     }));
+    console.log(chalk.green.bold('Database filled!'));
 };
 
-saveMonitorsInDb();
-console.log('Finished!');
+module.exports = {
+    saveMonitorsInDb,
+};
